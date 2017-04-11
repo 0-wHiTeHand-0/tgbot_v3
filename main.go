@@ -7,9 +7,11 @@ import (
     "io/ioutil"
     "encoding/json"
     "github.com/go-telegram-bot-api/telegram-bot-api"
-    "time"
+		"github.com/robfig/cron"
+		"time"
     "math/rand"
-    "strings"
+   	"strings"
+	 	"strconv"
     "crypto/md5"
     "encoding/hex"
 )
@@ -40,6 +42,7 @@ type cmdConfigs struct {
     Chive   CmdConfigChive      `json:"chive"`
     Voice   CmdConfigVoice      `json:"voice"`
 		Fcdg		CmdConfigFcdg				`json:"4cdg"`
+		Ctftime	CmdConfigCtftime		`json:"ctftime"`
 }
 
 func send_pic(bot *tgbotapi.BotAPI, msg *tgbotapi.Message, path string, f bool){
@@ -93,6 +96,24 @@ func main() {
     u := tgbotapi.NewUpdate(0)
     u.Timeout = 60
 
+		if Commandssl.Ctftime.Enabled{
+						c := cron.New()
+						c.AddFunc("0 18 * * 4 *", func() {
+										err, txt := Ctftime_apireq()
+										if err != nil{
+														log.Println(err)
+														return
+										}
+										for _, i := range Commandssl.Ctftime.Channel_ids{
+														msg := tgbotapi.NewMessage(int64(i), txt)
+														msg.ParseMode = "Markdown"
+														bot.Send(msg)
+										}
+										log.Println("Sent CTFtime upcoming events!")
+						})
+						c.Start()
+		}
+
 		updates, err := bot.GetUpdatesChan(u)
 		for update := range updates {
 						if (update.Message!=nil){
@@ -100,7 +121,7 @@ func main() {
 														log.Println("Banned user " + update.Message.From.FirstName + " blocked!")
 														continue
 										}
-										log.Printf("Message -> [%s] %s", update.Message.From.FirstName, update.Message.Text)
+										log.Printf("Message -> [%s] %s (id: %s)", update.Message.From.FirstName, update.Message.Text, strconv.FormatInt(update.Message.Chat.ID, 10))
 										var msg tgbotapi.MessageConfig
 										if (Commandssl.Ban.Enabled && Commandssl.Ban.Reg.MatchString(update.Message.Text)){
 														txt := BanRun(update.Message)
@@ -115,6 +136,7 @@ func main() {
 														txt := QuotesRun(update.Message)
 														if (txt!=""){
 																		msg = tgbotapi.NewMessage(update.Message.Chat.ID, txt)
+																		msg.ParseMode = "Markdown"
 														}else{
 																		send_pic(bot, update.Message, "a12.jpg", true)
 																		continue
@@ -136,6 +158,7 @@ func main() {
 														}
 														if (update.Message.Text == "/4cdg rules") {
 																		msg = tgbotapi.NewMessage(update.Message.Chat.ID, txt)
+																		msg.ParseMode = "Markdown"
 														}else{
 																		send_pic(bot, update.Message, txt, false)
 																		continue
@@ -154,7 +177,7 @@ func main() {
 														log.Println("Banned user " + update.InlineQuery.From.FirstName + " blocked!")
 														continue
 										}
-										log.Printf("Inline -> [%s] %s", update.InlineQuery.From.FirstName, update.InlineQuery.Query)
+										log.Printf("Inline -> [%s] %s (alias: %s)", update.InlineQuery.From.FirstName, update.InlineQuery.Query, update.InlineQuery.From.UserName)
 										var resu []interface{}
 										var ano_urls []string
 										var err error

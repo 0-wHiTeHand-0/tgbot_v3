@@ -48,7 +48,7 @@ func QuotesRun(inmsg *tgbotapi.Message) (string) {
 		str := ""
     if len(m) == 1 {
         rndInt := rand.Intn(len(Commandssl.Quotes.f_quotes))
-        str = "<-- Random quote -->\n"+strings.Replace(Commandssl.Quotes.f_quotes[rndInt], "   ", "\n", -1)
+        str = "*<-- Random quote -->*\n"+strings.Replace(Commandssl.Quotes.f_quotes[rndInt], "   ", "\n", -1)
     } else if len(m) == 3 && m[1] == ">" {
         quote := strings.Replace(m[2], "\n", "   ", -1)
         linesFiltered := make([]string, 0)
@@ -61,7 +61,7 @@ func QuotesRun(inmsg *tgbotapi.Message) (string) {
             str = "No quote found :("
         } else {
             rndInt := rand.Intn(len(linesFiltered))
-            str = "<-- Match! -->\n"+strings.Replace(linesFiltered[rndInt], "   ", "\n", -1)
+            str = "*<-- Match! -->*\n"+strings.Replace(linesFiltered[rndInt], "   ", "\n", -1)
         }
     } else if len(m) == 3 && m[1] == "<" {
         quote := strings.Replace(m[2], "\n", "   ", -1)
@@ -72,7 +72,7 @@ func QuotesRun(inmsg *tgbotapi.Message) (string) {
         }else{f.Close()}
 
         Commandssl.Quotes.f_quotes = append(Commandssl.Quotes.f_quotes, quote)
-        str = "<-- We have a new quote! -->\n"+strings.Replace(quote, "   ", "\n", -1)
+        str = "*<-- We have a new quote! -->*\n"+strings.Replace(quote, "   ", "\n", -1)
     }
 		return str
 }
