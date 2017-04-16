@@ -26,21 +26,23 @@ func NewCmdAno(config *CmdConfigAno) {
     config.Reg = regexp.MustCompile(`^(?:.+$)`)
 }
 
-func AnoRunRandom() ([]string, []int, []int, error) {
+func AnoRunRandom(setnum int) ([]string, []int, []int, error) {
 
+    type sPic struct{
+        ID string `json:"id"`
+        Sizew int `json:"sizew"`
+        Sizeh int `json:"sizeh"`
+    }
     var respData struct {
-        Pics []struct {
-            ID string `json:"id"`
-            Sizew int `json:"sizew"`
-            Sizeh int `json:"sizeh"`
-        }
+        Pics []sPic `json:"pics"`
+        Pic sPic `json:"pic"`
     }
     reqData := struct {
         Method  string  `json:"method"`
         Num     int     `json:"num"`
     }{
         "random",
-        25,
+        setnum,
     }
     reqBody, err := json.Marshal(reqData)
     if err != nil {
@@ -66,10 +68,16 @@ func AnoRunRandom() ([]string, []int, []int, error) {
     }
     var IDs []string
     var width,height []int
-    for _, tmp := range respData.Pics{
-        IDs = append(IDs, picsURL + tmp.ID)
-        height = append(height, tmp.Sizeh)
-        width = append(width, tmp.Sizew)
+    if setnum == 1{
+        IDs = append(IDs, picsURL+respData.Pic.ID)
+        height = append(height, respData.Pic.Sizeh)
+        width = append(width, respData.Pic.Sizew)
+    }else{
+        for _, tmp := range respData.Pics{
+            IDs = append(IDs, picsURL + tmp.ID)
+            height = append(height, tmp.Sizeh)
+            width = append(width, tmp.Sizew)
+        }
     }
     return IDs, height, width, nil
 }
