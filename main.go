@@ -127,7 +127,7 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
         }
         log.Printf("Message -> [%s] %s (id: %d, alias: %s)", update.Message.From.FirstName, update.Message.Text, update.Message.Chat.ID, update.Message.From.UserName)
         var msg tgbotapi.MessageConfig
-        if (Commandssl.Ano.Enabled && update.Message.Text == "/ano"){
+        if (Commandssl.Ano.Enabled && Commandssl.Ano.Reg2.MatchString(update.Message.Text)){
             txt := "What have been seen cannot be unseen!\n"
             pic, _, _, err := AnoRunRandom(1)
             if err != nil || len(pic) != 1{
@@ -204,7 +204,7 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
                 log.Println(err)
                 return
             }
-        }else if Commandssl.Ano.Reg.MatchString(update.InlineQuery.Query){
+        }else if Commandssl.Ano.Reg1.MatchString(update.InlineQuery.Query){
             if update.InlineQuery.Offset == ""{
                 offset = "0"
             }else{

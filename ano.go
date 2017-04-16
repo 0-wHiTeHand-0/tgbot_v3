@@ -18,12 +18,14 @@ import (
 const picsURL = "http://ano.lolcathost.org/pics/"
 
 type CmdConfigAno struct {
-    Reg         *regexp.Regexp
+    Reg1         *regexp.Regexp
+    Reg2        *regexp.Regexp
     Enabled     bool `json:"enable"`
 }
 
 func NewCmdAno(config *CmdConfigAno) {
-    config.Reg = regexp.MustCompile(`^(?:.+$)`)
+    config.Reg1 = regexp.MustCompile(`^(?:.+$)`)
+    config.Reg2 = regexp.MustCompile(`^/ano(?:(@[a-zA-Z0-9_]+bot)?$)`)
 }
 
 func AnoRunRandom(setnum int) ([]string, []int, []int, error) {
