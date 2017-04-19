@@ -23,7 +23,7 @@ func NewCmdFcdg(config *CmdConfigFcdg){
 func FcdgRun(text string) (string, error) {
 				var	err error
 				if text == "/4cdg rules" {
-								return "*'4chan drinking card game' rules*\n\n1. The left of the phone owner starts.\n2. Players take a card when it's their turn. They must do what the card says.\n3. You win the game when everyone else pass' out.\n\nCard types:\nAction: This is a standard 'do what it says' card.\nInstant: This card may be kept and used at anytime in the game.\nMandatory: Everyone must play this card.\nStatus: This is constant for the whole game or the timeframe indicated on the card.", nil
+                    return "*'4chan drinking card game' rules*\n\n1. The left of the phone owner starts.\n2. Players take a card when it's their turn. They must do what the card says.\n3. You win the game when everyone else pass' out.\n\nCard types:\n*Action*: This is a standard 'do what it says' card.\n*Instant*: This card may be kept and used at anytime in the game.\n*Mandatory*: Everyone must play this card.\n*Status*: This is constant for the whole game or the timeframe indicated on the card.", nil
 				}
 				if len(Commandssl.Fcdg.f_slice) == 0 {
 								Commandssl.Fcdg.f_slice, err = filepath.Glob(Commandssl.Fcdg.Path + "/*.jpg")

@@ -62,6 +62,25 @@ func bytes_to_filebytes(a []byte) tgbotapi.FileBytes{
     return file
 }
 
+func clean_markdown(a string) string{
+    d := strings.SplitN(a, "\n", 2)
+    var b string
+    if len(d) == 2{
+        d[1] = strings.Replace(d[1], "*", "\\*", -1)
+        d[1] = strings.Replace(d[1], "_", "\\_", -1)
+        d[1] = strings.Replace(d[1], "`", "\\`", -1)
+        d[1] = strings.Replace(d[1], "[text]", "[_text]", -1)
+        b = d[0] + "\n" + d[1]
+    }else{
+        d[0] = strings.Replace(d[0], "*", "\\*", -1)
+        d[0] = strings.Replace(d[0], "_", "\\_", -1)
+        d[0] = strings.Replace(d[0], "`", "\\`", -1)
+        d[0] = strings.Replace(d[0], "[text]", "[_text]", -1)
+        b = d[0]
+    }
+    return b
+}
+
 var Commandssl cmdConfigs
 
 func main() {
@@ -104,7 +123,7 @@ func main() {
                 return
             }
             for _, i := range Commandssl.Ctftime.Channel_ids{
-                msg := tgbotapi.NewMessage(int64(i), txt)
+                msg := tgbotapi.NewMessage(int64(i), clean_markdown(txt))
                 msg.ParseMode = "Markdown"
                 bot.Send(msg)
             }
@@ -149,7 +168,7 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
         }else if (Commandssl.Quotes.Enabled && Commandssl.Quotes.Reg.MatchString(update.Message.Text)){
             txt := QuotesRun(update.Message)
             if (txt!=""){
-                msg = tgbotapi.NewMessage(update.Message.Chat.ID, txt)
+                msg = tgbotapi.NewMessage(update.Message.Chat.ID, clean_markdown(txt))
                 msg.ParseMode = "Markdown"
             }else{
                 send_pic(bot, update.Message, "a12.jpg", true)
