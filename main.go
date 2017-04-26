@@ -116,7 +116,7 @@ func main() {
 
     if Commandssl.Ctftime.Enabled{
         c := cron.New()
-        c.AddFunc("0 0 18 * * 3", func() {//Every thursday at 18.00
+        c.AddFunc("0 0 18 * * thu", func() {//Every thursday at 18.00
             err, txt := Ctftime_apireq()
             if err != nil{
                 log.Println(err)
