@@ -69,13 +69,15 @@ func clean_markdown(a string) string{
         d[1] = strings.Replace(d[1], "*", "\\*", -1)
         d[1] = strings.Replace(d[1], "_", "\\_", -1)
         d[1] = strings.Replace(d[1], "`", "\\`", -1)
-        d[1] = strings.Replace(d[1], "[text]", "[_text]", -1)
+        d[1] = strings.Replace(d[1], "[", "\\[", -1)
+        d[1] = strings.Replace(d[1], "]", "\\]", -1)
         b = d[0] + "\n" + d[1]
     }else{
         d[0] = strings.Replace(d[0], "*", "\\*", -1)
         d[0] = strings.Replace(d[0], "_", "\\_", -1)
         d[0] = strings.Replace(d[0], "`", "\\`", -1)
-        d[0] = strings.Replace(d[0], "[text]", "[_text]", -1)
+        d[0] = strings.Replace(d[0], "[", "\\[", -1)
+        d[0] = strings.Replace(d[0], "]", "\\]", -1)
         b = d[0]
     }
     return b
