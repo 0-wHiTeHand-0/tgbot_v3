@@ -23,7 +23,9 @@ func Ctftime_apireq() (error, string) {
         Start string `json:"start"`
         Finish string `json:"finish"`
     }
-    res, err := http.Get("https://ctftime.org/api/v1/events/?limit=20")
+    res, err := http.Get("https://ctftime.org/api/v1/events/?limit=20&start=" +
+    strconv.FormatInt(time.Now().Unix(), 10) + "&finish=" +
+    strconv.FormatInt(time.Now().Add(time.Hour*120).Unix(), 10))//120 hours == 5 days
     if err != nil {
         return err, ""
     }
