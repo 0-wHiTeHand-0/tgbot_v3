@@ -140,6 +140,19 @@ func main() {
     }
 }
 
+func canremove(bot *tgbotapi.BotAPI, id int64) bool{
+   chatcfg := tgbotapi.ChatConfigWithUser{
+      ChatID: id,
+      UserID: bot.Self.ID,
+      }
+   i, err := bot.GetChatMember(chatcfg)
+   if err != nil{
+      log.Println("Error getting bot info:", err)
+      return false
+   }
+   return i.CanDeleteMessages
+}
+
 func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
     if (update.Message!=nil){
         if banned_user(update.Message.From){
@@ -200,6 +213,21 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
             }
         }else if((update.Message.Text=="")||(update.Message.ReplyToMessage!=nil)){
             return
+        }else if strings.HasPrefix(update.Message.Text, "/me "){
+           if !canremove(bot, update.Message.Chat.ID){
+              return
+           }
+           delcfg := tgbotapi.DeleteMessageConfig{
+              ChatID: update.Message.Chat.ID,
+              MessageID: update.Message.MessageID,
+           }
+           apiresp, _ := bot.DeleteMessage(delcfg)
+           if !apiresp.Ok{
+              log.Println("Error removing message!", apiresp)
+              return
+           }
+           msg = tgbotapi.NewMessage(update.Message.Chat.ID, strings.Replace(update.Message.Text,
+           "/me", update.Message.From.FirstName, 1))
         }else{
             m := "Command not found!"
             if (Commandssl.Bitchx.Enabled){m = BitchxRun(update.Message.From.FirstName)}
