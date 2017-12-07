@@ -154,7 +154,7 @@ func canremove(bot *tgbotapi.BotAPI, id int64) bool{
 }
 
 func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
-    if (update.Message!=nil){
+    if ((update.Message!=nil) && (update.Message.ReplyToMessage==nil) && (len(update.Message.Text)>0) && (update.Message.Text[0]=='/')){
         if banned_user(update.Message.From){
             log.Println("Banned user " + update.Message.From.FirstName + " blocked!")
             return
@@ -211,8 +211,6 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
                 send_pic(bot, update.Message, txt, false)
                 return
             }
-        }else if((update.Message.Text=="")||(update.Message.ReplyToMessage!=nil)){
-            return
         }else if strings.HasPrefix(update.Message.Text, "/me "){
            if !canremove(bot, update.Message.Chat.ID){
               return
