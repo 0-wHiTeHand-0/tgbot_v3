@@ -27,7 +27,7 @@ func NewCmdQuote(config *CmdConfigQuote){
         log.Fatalln(err)
     }
 
-		config.Reg = regexp.MustCompile(`^/quote(?:(@[a-zA-Z0-9_]+bot)?( [<>] (.|\n){1,200})?$)`)
+		config.Reg = regexp.MustCompile(`^/quote(?:(@[a-zA-Z0-9_]{1,20}bot)?( [<>] (.|\n){1,200})?$)`)
     config.f_quotes = strings.Split(string(f), "\n")
 }
 

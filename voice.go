@@ -19,7 +19,7 @@ type CmdConfigVoice struct {
 }
 
 func NewCmdVoice(config *CmdConfigVoice){
-    config.Reg = regexp.MustCompile(`^/voice(?:(@[a-zA-Z0-9_]+bot)?( [ a-zÁÉÍÓÚáéíóúñÑA-Z0-9\.,?!]{1,200})?$)`)
+    config.Reg = regexp.MustCompile(`^/voice(?:(@[a-zA-Z0-9_]{1,20}bot)?( [ a-zÁÉÍÓÚáéíóúñÑA-Z0-9\.,?!]{1,300})?$)`)
 }
 
 func VoiceRun(txt string) ([]byte ,string) {

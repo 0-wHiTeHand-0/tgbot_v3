@@ -25,7 +25,7 @@ type CmdConfigAno struct {
 
 func NewCmdAno(config *CmdConfigAno) {
     config.Reg1 = regexp.MustCompile(`^(?:.+$)`)
-    config.Reg2 = regexp.MustCompile(`^/ano(?:(@[a-zA-Z0-9_]+bot)?$)`)
+    config.Reg2 = regexp.MustCompile(`^/ano(?:(@[a-zA-Z0-9_]{1,20}bot)?$)`)
 }
 
 func AnoRunRandom(setnum int) ([]string, []int, []int, error) {

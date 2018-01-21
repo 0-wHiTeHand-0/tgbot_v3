@@ -23,7 +23,7 @@ type CmdConfigChive struct {
 var chiveURLs []string
 
 func NewCmdChive(config *CmdConfigChive) {
-    config.Reg = regexp.MustCompile(`^/chive(?:(@[a-zA-Z0-9_]+bot)?( refill)?$)`)
+    config.Reg = regexp.MustCompile(`^/chive(?:(@[a-zA-Z0-9_]{1,20}bot)?( refill)?$)`)
     //    config.Reg = regexp.MustCompile(`^/chive(?:(@[a-zA-Z0-9_]+bot)?( .+)?$)`)
 }
 

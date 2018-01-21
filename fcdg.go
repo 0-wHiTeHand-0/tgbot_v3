@@ -17,7 +17,7 @@ func NewCmdFcdg(config *CmdConfigFcdg){
     if config.Path == "" {
         config.Path = "4cdg"
     }
-		config.Reg = regexp.MustCompile(`^/4cdg(?:@[a-zA-Z0-9_]+bot| rules)?$`)
+		config.Reg = regexp.MustCompile(`^/4cdg(?:@[a-zA-Z0-9_]{1,20}bot| rules)?$`)
 }
 
 func FcdgRun(text string) (string, error) {
