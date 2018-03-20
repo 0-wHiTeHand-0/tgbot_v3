@@ -47,10 +47,10 @@ func Ctftime_apireq() (error, string) {
             txt += "\nParticipants: " + strconv.Itoa(i.Participants)
             txt += "\nFormat: " + i.Format
             txt += "\nStart: "
-            loc, _ := time.LoadLocation("Europe/Madrid")
+            loc, _ := time.LoadLocation("Local")
             t1, e := time.Parse(time.RFC3339,i.Start)
             if e != nil{
-                txt += "Parser error"
+                txt += "Parser error " + e.Error()
             }else{
                 txt += t1.In(loc).Format(time.UnixDate)
             }
@@ -58,7 +58,7 @@ func Ctftime_apireq() (error, string) {
 
             t1, e = time.Parse(time.RFC3339,i.Finish)
             if e != nil{
-                txt += "Parser error"
+                txt += "Parser error " + e.Error()
             }else{
                 txt += t1.In(loc).Format(time.UnixDate)
             }
