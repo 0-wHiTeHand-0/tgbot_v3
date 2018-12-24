@@ -11,8 +11,8 @@ import (
     "io/ioutil"
     "net/http"
     "regexp"
-    "strings"
-    "strconv"
+//    "strings"
+//    "strconv"
 )
 
 const picsURL = "http://ano.lolcathost.org/pics/"
@@ -83,7 +83,7 @@ func AnoRunRandom(setnum int) ([]string, []int, []int, error) {
     }
     return IDs, height, width, nil
 }
-
+/*
 func AnoRunTags(in string, offset string) ([]string, string, []int, []int, error){
 
     var respData struct {
@@ -150,4 +150,4 @@ func AnoRunTags(in string, offset string) ([]string, string, []int, []int, error
         newoffset = strconv.Itoa(ioffset + reqData.Limit)
     }
     return IDs, newoffset, height, width, err
-}
+}*/

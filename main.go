@@ -233,7 +233,7 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
             msg.ReplyToMessageID = update.Message.MessageID
         }
         bot.Send(msg)
-    }else if (update.InlineQuery!=nil){
+    }/*else if (update.InlineQuery!=nil){
         if banned_user(update.InlineQuery.From){
             log.Println("Banned user " + update.InlineQuery.From.FirstName + " blocked!")
             return
@@ -296,5 +296,5 @@ func handle_updates(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
         if _, err := bot.AnswerInlineQuery(inline); err != nil {
             log.Println(err)
         }
-    }
+    }*/
 }
