@@ -73,9 +73,14 @@ func ChiveRefill(){
     type t_posts struct {
         Items []Item
     }
-
-    resp, err := http.Get("https://api4.thechive.com/api4/category?category_id=10665&page=1&key=" + Commandssl.Chive.ApiKey)
-
+    client := &http.Client{}
+    req, err := http.NewRequest("GET", "https://api4.thechive.com/api4/category?category_id=10665&page=1&key=" + Commandssl.Chive.ApiKey, nil)
+    if err != nil {
+        log.Println(err)
+        return
+    }
+    req.Header.Set("User-Agent", "okhttp/4.9.1")
+    resp, err := client.Do(req)
     if err != nil {
         log.Println(err)
         return
